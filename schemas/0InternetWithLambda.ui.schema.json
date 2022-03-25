@@ -1,0 +1,37 @@
+{
+    "type": "VerticalLayout",
+    "elements": [
+        {
+            "type": "Control",
+            "scope": "#/properties/Fiber",
+            "options": {
+                "format": "radio"
+            }
+        },
+        {
+            "type": "Label",
+            "text": "Addons"
+        },
+        {
+            "type": "HorizontalLayout",
+            
+            "elements": [
+                {
+                    "type": "Control",
+                    "scope": "#/properties/Box",
+                    "options": {
+                        "format": "radio"
+                    }
+                },
+                {
+                    "type": "Control",
+                    "scope": "#/properties/TV",
+                    "options": {
+                        "format": "radio"
+                    }
+                }
+            ]
+        }
+
+    ]
+}

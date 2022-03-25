@@ -1,0 +1,40 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "title": "The root schema",
+    "description": "The root schema comprises the entire JSON document.",
+    "default": {},
+    "examples": [
+        {
+            "name": "Henrique Rodrigues",
+            "landlineNumber": "122344"
+        }
+    ],
+    "required": [
+        "name",
+        "landlineNumber"
+    ],
+    "properties": {
+        "name": {
+            "$id": "#/properties/name",
+            "type": "string",
+            "title": "What is your name?",
+            "description": "User name",
+            "default": "",
+            "examples": [
+                "Henrique Rodrigues"
+            ]
+        },
+        "landlineNumber": {
+            "$id": "#/properties/landlineNumber",
+            "type": "number",
+            "title": "What is your landline number? (numbers only)",
+            "description": "Landline number",
+            "default": "",
+            "examples": [
+                "122344"
+            ]
+        }
+    }
+}

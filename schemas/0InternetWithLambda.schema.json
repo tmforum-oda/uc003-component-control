@@ -1,0 +1,29 @@
+{
+    "type": "object",
+    "properties": {
+      "Fiber": {
+        "type": "string",
+        "enum": [
+          "Fiber Offering 1",
+          "Fiber Offering 2",
+          "Fiber + Mobile Offering 3"
+        ]
+      },
+      "Box": {
+        "type": "string",
+        "enum": [
+          "Box 1",
+          "Box 2",
+          "No Box"
+        ]
+      },
+      "TV": {
+        "type": "string",
+        "enum": [
+          "TV",
+          "TV+",
+          "No Tv"
+        ]
+      }
+    }
+  }
