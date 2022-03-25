@@ -16,7 +16,7 @@ import {
 
 import { makeStyles } from '@mui/styles';
 
-
+import sampleCart from './sample/shoppingCart.json';
 
 
 const useStyles = makeStyles({
@@ -53,19 +53,52 @@ const initialData = {
     }]
 };
 
+
+const apiUrl = "http://localhost:8663/tmf-api/shoppingCart/v4/shoppingCart"
+
 const renderers = [
     ...materialRenderers
     //register custom renderers
 
 ];
 
+export async function getServerSideProps(){
+    const res = await fetch(apiUrl + "/1203")
 
+    const data =  await res.json()
 
-export default function Form() {
+    let shoppingCart = {
+        "Products" : []
+    }
+
+    data?.cartItem.forEach(element => {
+        // Summing up total price based on how many taxIncludedAmount there are.
+        let totalPrice = 0
+        element?.itemTotalPrice.forEach(currentPrice => {
+            totalPrice += parseFloat(currentPrice.price.taxIncludedAmount.value)
+        })
+
+        // Mapping the data to a simpler json object in order to pre-populate form.
+        shoppingCart.Products.push({
+            "id": element.id,
+            "name": element?.product?.name || "no name",
+            "quantity": element?.quantity || 1,
+            "totalPrice": String(totalPrice)
+        })
+    });
+
+    // console.log(shoppingCart)
+    return {props: {shoppingCart} };
+}
+
+export default function Form(shoppingCart) {
+    shoppingCart = shoppingCart["shoppingCart"]
+    console.log(shoppingCart)
+    
     const router = useRouter()
 
     const classes = useStyles();
-    const [data, setData] = useState(initialData);
+    const [data, setData] = useState(shoppingCart);
     const stringifiedData = useMemo(() => JSON.stringify(data, null, 2), [data]);
 
     const sendData = async () => {
