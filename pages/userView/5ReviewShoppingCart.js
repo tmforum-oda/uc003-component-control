@@ -65,13 +65,13 @@ const renderers = [
 export async function getServerSideProps(){
     const res = await fetch(apiUrl + "/1203")
 
-    const data =  await res.json()
+    const fetchedData =  await res.json()
 
     let shoppingCart = {
         "Products" : []
     }
 
-    data?.cartItem.forEach(element => {
+    fetchedData?.cartItem.forEach(element => {
         // Summing up total price based on how many taxIncludedAmount there are.
         let totalPrice = 0
         element?.itemTotalPrice.forEach(currentPrice => {
@@ -87,13 +87,18 @@ export async function getServerSideProps(){
         })
     });
 
-    // console.log(shoppingCart)
-    return {props: {shoppingCart} };
+    // console.log(fetchedData)
+    return {
+        props: {
+            shoppingCart,
+            fetchedData
+        }
+    };
 }
 
-export default function Form(shoppingCart) {
-    shoppingCart = shoppingCart["shoppingCart"]
-    console.log(shoppingCart)
+export default function Form(props) {
+    let shoppingCart = props["shoppingCart"]
+    let fetchedData = props["fetchedData"]
     
     const router = useRouter()
 
@@ -102,12 +107,45 @@ export default function Form(shoppingCart) {
     const stringifiedData = useMemo(() => JSON.stringify(data, null, 2), [data]);
 
     const sendData = async () => {
+        console.log(fetchedData);
+        
+
+        console.log("NEW CART", newCartItems)
+
+        // shoppingCart.forEach(currentItem, index => {
+        //     fetchedData.cartItem[index].id = currentItem.id
+        //     fetchedData.cartItem[index].name = currentItem.product.name
+        //     fetchedData.cartItem[index].quantity = currentItem.quantity
+        //     fetchedData.cartItem[index]?.itemPrice[0]?.price?.taxIncludedAmount?.value = currentItem.totalPrice
+        // })
+
+        //console.log(fetchedData)
+        
         // alert("Installing requested parts of the canvas, this will take a couple of minutes, you will be redirected when the installation finishes")
-        const response = await fetch('/api/updateShoppingCart/1203', {
-          method: 'POST',
-          body: JSON.stringify(data)
+        let newCartItems = []
+        console.log(shoppingCart)
+        fetchedData.cartItem.forEach(cartItem => {
+            data.Products.forEach(scP => {
+                console.log(cartItem.id, scP.id)
+                if(cartItem.id == scP.id) {
+                    newCartItems.push(cartItem)
+                }
+
+            });
+
         })
-        // const reStatus = await response.status
+        console.log("nci", newCartItems)
+        
+
+        
+        const response = await fetch('/api/updateShoppingCart/1203', {
+          method: 'PATCH',
+          body: JSON.stringify({
+              cartItem: newCartItems
+          })
+        })
+        const reStatus = await response.status
+        console.log(reStatus)
         // console.log(rData["logs"])
         // window.location.href = '/userView/shoppingCartUpdate?status='+ response.status;
     };

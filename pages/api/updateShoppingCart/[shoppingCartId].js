@@ -5,19 +5,21 @@ export default async function handler(req, res) {
 
     const apiUrl = "http://localhost:8663/tmf-api/shoppingCart/v4/shoppingCart"
 
-    if(req.method === "POST"){
+    if(req.method === "PATCH"){
         let body = req.body
 
-        axios.get(apiUrl + `/${shoppingCartId}`, {
-            params: {
+        // console.log(body)
+        let headers = {
+          'Content-Type': 'application/json'
+        }
 
-            }
-          })
+        axios.patch(apiUrl + `/${shoppingCartId}`, body, {headers: headers})
           .then(function (response) {
-            console.log(response.data, response.status);
+            res.status(response.status).json(response.json)
           })
           .catch(function (error) {
-            console.log(error);
+            console.log(error)
+            
           })
           .then(function () {
             // always executed
