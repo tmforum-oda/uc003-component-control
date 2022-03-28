@@ -58,8 +58,7 @@ const renderers = [
 
 export default function Form() {
     const router = useRouter()
-    
-    //schema['properties']['Fiber']['enum'] = ['What I got from the API']
+   
 
     const classes = useStyles();
     const [data, setData] = useState(initialData);
